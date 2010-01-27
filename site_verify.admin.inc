@@ -181,8 +181,8 @@ function site_verify_validate_file(&$form, &$form_state) {
 
   // Import the uploaded verification file.
   if ($file = file_save_upload('file_upload', array(), FALSE, FILE_EXISTS_REPLACE)) {
-    $contents = @file_get_contents($file->filepath);
-    file_delete($file->filepath);
+    $contents = @file_get_contents($file->uri);
+    file_delete($file);
     if ($contents === FALSE) {
       drupal_set_message(t('The verification file import failed, because the file %filename could not be read.', array('%filename' => $file->filename)), 'error');
     }
@@ -194,7 +194,7 @@ function site_verify_validate_file(&$form, &$form_state) {
   }
 
   if ($values['file']) {
-    $existing_file = db_result(db_query("SELECT svid FROM {site_verify} WHERE LOWER(file) = LOWER('%s') AND svid <> %d", $values['file'], $values['svid']));
+    $existing_file = db_query("SELECT svid FROM {site_verify} WHERE LOWER(file) = LOWER(:file) AND svid <> :svid", array(':file' => $values['file'], 'svid' => $values['svid']))->fetchField();
     if ($existing_file) {
       form_set_error('file', t('The file %filename is already being used in another verification.', array('%filename' => $values['file'])));
     }
@@ -220,8 +220,8 @@ function site_verify_edit_form_submit(&$form, &$form_state) {
       drupal_write_record('site_verify', $form_state['values']);
     }
 
-    drupal_set_message(t('Site verification saved.'));
-    $form_state['storage'] = $form_state['rebuild'] = FALSE;
+    drupal_set_message(t('Verification saved.'));
+    $form_state['storage'] = $form_state['rebuild'] = NULL;
     $form_state['redirect'] = 'admin/config/search/verifications';
 
     // The menu needs to be rebuilt if the page URL has changed or reset.
