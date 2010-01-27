@@ -1,4 +1,8 @@
 ; $Id$
 name = Site Verification
 description = "Verifies ownership of a site for use with search engines."
-core = 6.x
+core = 7.x
+files[] = site_verify.module
+files[] = site_verify.admin.inc
+files[] = site_verify.install
+configure = admin/config/search/verifications
