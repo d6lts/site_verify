@@ -101,6 +101,7 @@ function site_verify_import_xmlsitemap() {
           'engine' => $engine,
           'file' => $file,
           'file_contents' => variable_get('xmlsitemap_engines_' . $engine . '_verify_string', ''),
+          'meta' => '',
         ))
         ->execute();
     }
@@ -121,6 +122,7 @@ function site_verify_import_ghs() {
       ))
       ->fields(array(
         'file_contents' => $google_content,
+        'meta' => '',
       ))
       ->execute();
   }
