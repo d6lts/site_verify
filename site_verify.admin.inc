@@ -177,7 +177,8 @@ function site_verify_validate_file($form, &$form_state) {
   $values = &$form_state['values'];
 
   // Import the uploaded verification file.
-  if ($file = file_save_upload('file_upload', array(), FALSE, FILE_EXISTS_REPLACE)) {
+  $validators = array('file_validate_extensions' => array());
+  if ($file = file_save_upload('file_upload', $validators, FALSE, FILE_EXISTS_REPLACE)) {
     $contents = @file_get_contents($file->uri);
     file_delete($file);
     if ($contents === FALSE) {
