@@ -71,6 +71,8 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
     $record = $form_state['storage']['record'];
   }
 
+  $form['actions'] = array('#type' => 'actions');
+
   switch ($form_state['storage']['step']) {
     case 1:
       $engines = site_verify_get_engines();
@@ -80,19 +82,12 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
       }
       asort($options);
 
-      // Ensure custom is always last.
-      if (isset($options['custom'])) {
-        $custom = $options['custom'];
-        unset($options['custom']);
-        $options['custom'] = $custom;
-      }
-
       $form['engine'] = array(
         '#type' => 'select',
         '#title' => t('Search engine'),
         '#options' => $options,
       );
-      $form['next'] = array(
+      $form['actions']['next'] = array(
         '#type' => 'submit',
         '#value' => t('Next'),
       );
@@ -157,7 +152,7 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
         $form['#attributes'] = array('enctype' => 'multipart/form-data');
       }
 
-      $form['submit'] = array(
+      $form['actions']['submit'] = array(
         '#type' => 'submit',
         '#value' => t('Save'),
         '#weight' => 10,
@@ -165,9 +160,11 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
       break;
   }
 
-  $form['cancel'] = array(
-    '#value' => l(t('Cancel'), 'admin/config/search/verifications'),
-    '#weight' => 11,
+  $form['actions']['cancel'] = array(
+    '#type' => 'link',
+    '#href' => isset($_GET['destination']) ? $_GET['destination'] : 'admin/config/search/verifications',
+    '#title' => t('Cancel'),
+    '#weight' => 15,
   );
 
   return $form;
@@ -176,7 +173,7 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
 /**
  * Validation callback; save the uploaded file and check file name uniqueness.
  */
-function site_verify_validate_file(&$form, &$form_state) {
+function site_verify_validate_file($form, &$form_state) {
   $values = &$form_state['values'];
 
   // Import the uploaded verification file.
@@ -204,7 +201,7 @@ function site_verify_validate_file(&$form, &$form_state) {
 /**
  * Submission callback; send form to the next step or save the verification.
  */
-function site_verify_edit_form_submit(&$form, &$form_state) {
+function site_verify_edit_form_submit($form, &$form_state) {
   if ($form_state['storage']['step'] == 1) {
     // Send the form to step 2 (verification details).
     $form_state['storage']['record']['engine'] = site_verify_engine_load($form_state['values']['engine']);
