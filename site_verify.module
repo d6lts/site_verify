@@ -65,9 +65,13 @@ function site_verify_menu() {
 function site_verify_init() {
   // Add the verification meta tags to the front page.
   if (drupal_is_front_page()) {
-    $meta_tags = db_query("SELECT svid, meta FROM {site_verify} WHERE meta <> ''")->fetchAll();
-    foreach ($meta_tags as $meta_tag) {
-      drupal_add_html_head(array('#type' => 'markup', '#markup' => trim($meta_tag->meta) . "\n"), 'site-verify-' . $meta_tag->svid);
+    $meta_tags = db_query("SELECT svid, meta FROM {site_verify} WHERE meta <> ''")->fetchAllKeyed();
+    foreach ($meta_tags as $svid => $meta_tag) {
+      $data = array(
+        '#type' => 'markup',
+        '#markup' => $meta_tag . "\n",
+      );
+      drupal_add_html_head($data, 'site_verify:' . $meta_tag->svid);
     }
   }
 }
