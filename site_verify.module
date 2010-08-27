@@ -71,7 +71,7 @@ function site_verify_init() {
         '#type' => 'markup',
         '#markup' => $meta_tag . "\n",
       );
-      drupal_add_html_head($data, 'site_verify:' . $meta_tag->svid);
+      drupal_add_html_head($data, 'site_verify:' . $svid);
     }
   }
 }
