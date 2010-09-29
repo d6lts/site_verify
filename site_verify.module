@@ -26,21 +26,18 @@ function site_verify_menu() {
     'page arguments' => array('site_verify_edit_form', array(), 5),
     'access arguments' => array('administer site configuration'),
     'file' => 'site_verify.admin.inc',
-    'type' => MENU_CALLBACK,
   );
   $items['admin/config/search/verifications/edit/%site_verify'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('site_verify_edit_form', 5),
     'access arguments' => array('administer site configuration'),
     'file' => 'site_verify.admin.inc',
-    'type' => MENU_CALLBACK,
   );
   $items['admin/config/search/verifications/delete/%site_verify'] = array(
     'page callback' => 'drupal_get_form',
     'page arguments' => array('site_verify_delete_form', 5),
     'access arguments' => array('administer site configuration'),
     'file' => 'site_verify.admin.inc',
-    'type' => MENU_CALLBACK,
   );
 
   // Add the verification paths.
