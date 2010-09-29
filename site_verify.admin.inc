@@ -245,7 +245,7 @@ function site_verify_delete_form($form, $form_state, $record) {
 
 function site_verify_delete_form_submit($form, &$form_state) {
   $record = $form_state['values']['record'];
-  db_query("DELETE FROM {site_verify} WHERE svid = %d", $record['svid']);
+  db_delete('site_verify')->condition('svid', $record['svid'])->execute();
   drupal_set_message(t('Verification for %engine has been deleted.', array('%engine' => $record['engine']['name'])));
   watchdog('site_verify', 'Verification for %engine deleted.', array('%engine' => $record['engine']['name']), WATCHDOG_NOTICE);
   $form_state['redirect'] = 'admin/config/search/verifications';
