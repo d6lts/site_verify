@@ -201,7 +201,7 @@ function site_verify_edit_form_submit(&$form, &$form_state) {
       drupal_write_record('site_verify', $form_state['values']);
     }
 
-    drupal_set_message(t('Site verification saved.'));
+    drupal_set_message(t('Verification saved.'));
     $form_state['storage'] = $form_state['rebuild'] = FALSE;
     $form_state['redirect'] = 'admin/build/site-verify';
 
