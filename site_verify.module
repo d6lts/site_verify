@@ -41,8 +41,8 @@ function site_verify_menu() {
   );
 
   // Add the verification paths.
-  $query = db_query("SELECT svid, file FROM {site_verify} WHERE file <> ''");
-  foreach ($query as $verification) {
+  $verifications = db_query("SELECT svid, file FROM {site_verify} WHERE file <> ''")->fetchAll();
+  foreach ($verifications as $verification) {
     $items[$verification->file] = array(
       'page callback' => 'site_verify_output',
       'page arguments' => array((string) $verification->svid),

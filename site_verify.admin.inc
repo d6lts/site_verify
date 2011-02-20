@@ -116,6 +116,7 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
         '#description' => t('This is the full meta tag provided for verification. Note that this meta tag will only be visible in the source code of your <a href="@frontpage">front page</a>.', array('@front-page' => url('<front>'))),
         '#element_validate' => $record['engine']['meta_validate'],
         '#access' => $record['engine']['meta'],
+        '#maxlength' => NULL,
       );
 
       $form['file_upload'] = array(
