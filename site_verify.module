@@ -27,15 +27,15 @@ function site_verify_menu() {
     'access arguments' => array('administer site configuration'),
     'file' => 'site_verify.admin.inc',
   );
-  $items['admin/config/search/verifications/edit/%site_verify'] = array(
+  $items['admin/config/search/verifications/%site_verify/edit'] = array(
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('site_verify_edit_form', 5),
+    'page arguments' => array('site_verify_edit_form', 4),
     'access arguments' => array('administer site configuration'),
     'file' => 'site_verify.admin.inc',
   );
-  $items['admin/config/search/verifications/delete/%site_verify'] = array(
+  $items['admin/config/search/verifications/%site_verify/delete'] = array(
     'page callback' => 'drupal_get_form',
-    'page arguments' => array('site_verify_delete_form', 5),
+    'page arguments' => array('site_verify_delete_form', 4),
     'access arguments' => array('administer site configuration'),
     'file' => 'site_verify.admin.inc',
   );

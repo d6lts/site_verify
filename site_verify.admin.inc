@@ -27,12 +27,12 @@ function site_verify_list() {
     $operations = array();
     $operations['edit'] = array(
       'title' => t('Edit'),
-      'href' => 'admin/config/search/verifications/edit/' . $verification->svid,
+      'href' => "admin/config/search/verifications/{$verification->svid}/edit",
       'query' => $destination,
     );
     $operations['delete'] = array(
       'title' => t('Delete'),
-      'href' => 'admin/config/search/verifications/delete/' . $verification->svid,
+      'href' => "admin/config/search/verifications/{$verification->svid}/delete",
       'query' => $destination,
     );
     $row['data']['operations'] = array(
@@ -223,7 +223,9 @@ function site_verify_edit_form_submit($form, &$form_state) {
     $form_state['storage'] = $form_state['rebuild'] = NULL;
     $form_state['redirect'] = 'admin/config/search/verifications';
 
-    // The menu needs to be rebuilt if the page URL has changed or reset.
+    // Clear front page caches and set the menu to be rebuilt.
+    cache_clear_all(url('<front>', array('absolute' => TRUE)), 'cache_page');
+    cache_clear_all(url(variable_get('site_frontpage', 'node'), array('absolute' => TRUE)), 'cache_page');
     variable_set('menu_rebuild_needed', TRUE);
   }
 }
@@ -250,6 +252,11 @@ function site_verify_delete_form_submit($form, &$form_state) {
   drupal_set_message(t('Verification for %engine has been deleted.', array('%engine' => $record['engine']['name'])));
   watchdog('site_verify', 'Verification for %engine deleted.', array('%engine' => $record['engine']['name']), WATCHDOG_NOTICE);
   $form_state['redirect'] = 'admin/config/search/verifications';
+
+  // Clear front page caches and set the menu to be rebuilt.
+  cache_clear_all(url('<front>', array('absolute' => TRUE)), 'cache_page');
+  cache_clear_all(url(variable_get('site_frontpage', 'node'), array('absolute' => TRUE)), 'cache_page');
+  variable_set('menu_rebuild_needed', TRUE);
 }
 
 function site_verify_validate_meta_google($element, &$form_state) {
