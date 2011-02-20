@@ -19,8 +19,8 @@ function site_verify_list() {
       $engines[$record->engine]['name'],
       $record->meta ? '<span title="' . check_plain(truncate_utf8($record->meta, 48)) . '">' . t('Yes') . '</spam>' : t('No'),
       $record->file ? l($record->file, $record->file) : t('None'),
-      l(t('Edit'), 'admin/build/site-verify/edit/' . $record->svid),
-      l(t('Delete'), 'admin/build/site-verify/delete/' . $record->svid),
+      l(t('Edit'), "admin/build/site-verify/{$record->svid}/edit"),
+      l(t('Delete'), "admin/build/site-verify/{$record->svid}/delete"),
     );
   }
   ksort($rows);
@@ -208,6 +208,10 @@ function site_verify_edit_form_submit(&$form, &$form_state) {
 
     // The menu needs to be rebuilt if the page URL has changed or reset.
     variable_set('menu_rebuild_needed', TRUE);
+
+    // Also clear front page caches.
+    cache_clear_all(url('<front>', array('absolute' => TRUE)), 'cache_page');
+    cache_clear_all(url(variable_get('site_frontpage', 'node'), array('absolute' => TRUE)), 'cache_page');
   }
 }
 
