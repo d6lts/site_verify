@@ -1,5 +1,4 @@
 <?php
-// $Id$
 
 function site_verify_list() {
   $engines = site_verify_get_engines();
