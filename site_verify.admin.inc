@@ -192,7 +192,7 @@ function site_verify_validate_file($form, &$form_state) {
   }
 
   if ($values['file']) {
-    $existing_file = db_query("SELECT svid FROM {site_verify} WHERE LOWER(file) = LOWER(:file) AND svid <> :svid", array(':file' => $values['file'], 'svid' => $values['svid']))->fetchField();
+    $existing_file = db_query("SELECT svid FROM {site_verify} WHERE LOWER(file) = LOWER(:file) AND svid <> :svid", array(':file' => $values['file'], ':svid' => $values['svid']))->fetchField();
     if ($existing_file) {
       form_set_error('file', t('The file %filename is already being used in another verification.', array('%filename' => $values['file'])));
     }
