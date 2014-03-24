@@ -1,9 +1,17 @@
 <?php
 
 /**
+ * @file
+ * Site Verify provides a tool for verification codes (meta tags or custom
+ * pages) to be added to the site, for verification with external search
+ * engines.
+ */
+
+/**
  * Implements hook_menu().
  */
 function site_verify_menu() {
+  // List all verification records.
   $items['admin/config/search/verifications'] = array(
     'title' => 'Verifications',
     'description' => 'Add, change or remove verifications for your site.',
@@ -11,6 +19,7 @@ function site_verify_menu() {
     'access arguments' => array('administer site verify'),
     'file' => 'site_verify.admin.inc',
   );
+  // Add a verification record.
   $items['admin/config/search/verifications/add'] = array(
     'title' => 'Add verification',
     'page callback' => 'drupal_get_form',
@@ -189,6 +198,9 @@ function site_verify_get_engines() {
   return $engines;
 }
 
+/**
+ * Output the page contents for a file-based custom verification page.
+ */
 function site_verify_output($svid) {
   $verification = site_verify_load($svid);
   if ($verification['file_contents'] && $verification['engine']['file_contents']) {
