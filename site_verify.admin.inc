@@ -112,7 +112,7 @@ function site_verify_edit_form($form, &$form_state, $record = array(), $engine =
         '#type' => 'textfield',
         '#title' => t('Verification META tag'),
         '#default_value' => $record['meta'],
-        '#description' => t('This is the full meta tag provided for verification. Note that this meta tag will only be visible in the source code of your <a href="@frontpage">front page</a>.', array('@front-page' => url('<front>'))),
+        '#description' => t('This is the full meta tag provided for verification. Note that this meta tag will only be visible in the source code of your <a href="@frontpage">front page</a>.', array('@frontpage' => url('<front>'))),
         '#element_validate' => $record['engine']['meta_validate'],
         '#access' => $record['engine']['meta'],
         '#maxlength' => NULL,
