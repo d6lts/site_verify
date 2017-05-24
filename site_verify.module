@@ -62,6 +62,13 @@ function site_verify_menu() {
 }
 
 /**
+ * Implements hook_perm().
+ */
+function site_verify_perm() {
+  return array('administer site verify uploads');
+}
+
+/**
  * Implements hook_init().
  */
 function site_verify_init() {
