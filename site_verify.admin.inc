@@ -183,30 +183,28 @@ function site_verify_edit_form_validate($form, &$form_state) {
     }
 
     //
-    if (isset($form_state['values']['file']) && $form_state['values']['file']) {
-      $values = &$form_state['values'];
-      // Import the uploaded verification file.
-      $validators = array('file_validate_extensions' => array());
-      if ($file = file_save_upload('file_upload', $validators, FALSE, FILE_EXISTS_REPLACE)) {
-        $contents = @file_get_contents($file->filepath);
-        file_delete($file->filepath);
-        if ($contents === FALSE) {
-          drupal_set_message(t('The verification file import failed, because the file %filename could not be read.', array('%filename' => $file->filename)), 'error');
-        }
-        else {
-          $values['file'] = $file->filename;
-          $values['file_contents'] = $contents;
-          //drupal_set_message(t('The verification file <a href="@filename">@filename</a> was successfully imported.', array('@filename' => $file->filename)));
-        }
+    $values = &$form_state['values'];
+    // Import the uploaded verification file.
+    $validators = array('file_validate_extensions' => array(''));
+    if ($file = file_save_upload('file_upload', $validators, FALSE, FILE_EXISTS_REPLACE)) {
+      $contents = @file_get_contents($file->filepath);
+      file_delete($file->filepath);
+      if ($contents === FALSE) {
+        drupal_set_message(t('The verification file import failed, because the file %filename could not be read.', array('%filename' => $file->filename)), 'error');
       }
+      else {
+        $values['file'] = $file->filename;
+        $values['file_contents'] = $contents;
+        //drupal_set_message(t('The verification file <a href="@filename">@filename</a> was successfully imported.', array('@filename' => $file->filename)));
+      }
+    }
 
-      // Confirm that the desired filename isn't already in use by another
-      // verification.
-      if ($values['file']) {
-        $existing_file = db_result(db_query("SELECT svid FROM {site_verify} WHERE LOWER(file) = LOWER('%s') AND svid <> %d", $values['file'], $values['svid']));
-        if ($existing_file) {
-          form_set_error('file', t('The file %filename is already being used in another verification.', array('%filename' => $values['file'])));
-        }
+    // Confirm that the desired filename isn't already in use by another
+    // verification.
+    if ($values['file']) {
+      $existing_file = db_result(db_query("SELECT svid FROM {site_verify} WHERE LOWER(file) = LOWER('%s') AND svid <> %d", $values['file'], $values['svid']));
+      if ($existing_file) {
+        form_set_error('file', t('The file %filename is already being used in another verification.', array('%filename' => $values['file'])));
       }
     }
     else {
